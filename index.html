@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator FPB Modern - Euclidean</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* CSS TETAP SAMA SEPERTI SEBELUMNYA */
+        * { box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { 
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #2193b0 100%);
+            height: 100vh; display: flex; align-items: center; justify-content: center; margin: 0; color: #333;
+        }
+        .container { 
+            background: rgba(255, 255, 255, 0.98); padding: 40px; border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3); width: 100%; max-width: 450px;
+            border-top: 5px solid #00d2ff;
+        }
+        h2 { text-align: center; color: #1e3c72; margin-bottom: 30px; }
+        label { font-size: 0.85rem; font-weight: 600; color: #555; text-transform: uppercase; }
+        input[type="number"] { 
+            width: 100%; padding: 12px; margin: 8px 0 20px 0; border: 2px solid #e1e8ed; 
+            border-radius: 10px; outline: none; font-size: 1rem;
+        }
+        button { 
+            background: linear-gradient(to right, #00d2ff, #3a7bd5);
+            color: white; padding: 14px; border: none; border-radius: 10px; 
+            cursor: pointer; width: 100%; font-size: 1rem; font-weight: 600;
+            box-shadow: 0 4px 15px rgba(58, 123, 213, 0.4);
+        }
+        #resultArea { margin-top: 30px; }
+        .result-box { padding: 20px; border-radius: 15px; text-align: center; }
+        .prima { background-color: #e3f9e5; border: 1px solid #a8e6b1; color: #1b5e20; }
+        .tidak-prima { background-color: #fff1f0; border: 1px solid #ffa39e; color: #a8071a; }
+        .fpb-value { font-size: 2.5rem; display: block; margin: 5px 0; font-weight: 600; }
+        .status-text { font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Kalkulator FPB</h2>
+    <label>Angka 1 (Nilai A)</label>
+    <input type="number" id="angka1" placeholder="Masukkan angka..." required>
+    
+    <label>Angka 2 (Nilai B)</label>
+    <input type="number" id="angka2" placeholder="Masukkan angka..." required>
+    
+    <button onclick="prosesHitung()">PROSES HITUNG</button>
+
+    <div id="resultArea"></div>
+</div>
+
+<script>
+    function prosesHitung() {
+        let a = Math.abs(parseInt(document.getElementById('angka1').value));
+        let b = Math.abs(parseInt(document.getElementById('angka2').value));
+        
+        if (isNaN(a) || isNaN(b)) {
+            alert("Masukkan angka yang benar bro!");
+            return;
+        }
+
+        // Algoritma Euclidean di JavaScript
+        let x = a;
+        let y = b;
+        while (y !== 0) {
+            let temp = x % y;
+            x = y;
+            y = temp;
+        }
+        let hasil = x;
+
+        let isRelatifPrima = (hasil === 1);
+        let resultDiv = document.getElementById('resultArea');
+        let statusClass = isRelatifPrima ? 'prima' : 'tidak-prima';
+        let statusText = isRelatifPrima ? 'RELATIF PRIMA' : 'TIDAK RELATIF PRIMA';
+
+        resultDiv.innerHTML = `
+            <div class="result-box ${statusClass}">
+                FPB dari ${a} & ${b} adalah:
+                <span class="fpb-value">${hasil}</span>
+                <span class="status-text">${statusText}</span>
+            </div>
+        `;
+    }
+</script>
+
+</body>
+</html>
